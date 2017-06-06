@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    
+    <!-- 配置Handler，即配置Handler对应的访问的url -->
+    <bean id="itemController1" name="/items/itemlist.action" class="com.ssm.controller.ItemController1"></bean>
+    
+    <!-- 配置另外一个Handler -->
+    <bean id="itemController2" class="com.ssm.controller.ItemController2"></bean>
+    
+    <!-- 配置处理器适配器
+	处理器适配器都实现 HandlerAdapter接口
+    -->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+    
+    <!-- 配置另外一个处理器适配器 -->
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"></bean>
+    
+    <!-- 配置另外一个处理器映射器 -->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    	<property name="mappings">
+    		<props>
+    			<prop key="/items/itemlist1.action">itemController1</prop>
+    			<prop key="/items/itemlist2.action">itemController2</prop>
+    		</props>
+    	</property>
+    </bean>
+    
+    <!-- 配置处理器映射器，即将bean的name配置为url进行访问 -->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+    
+    <!-- 配置视图解析器 
+    	解析jsp，默认解析jstl风格标签
+    -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"></bean>
+    
+</beans>
