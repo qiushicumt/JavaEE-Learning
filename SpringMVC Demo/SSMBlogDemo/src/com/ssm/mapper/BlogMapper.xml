@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.BlogDao">
+
+	<resultMap type="Blog" id="blogResultMap">
+		<id column="blog_id" property="blogId" />
+		<result column="blog_title" property="blogTitle" />
+		<result column="blog_content" property="blogContent" />
+		<result column="user_id" property="userId" />
+		<result column="pub_date" property="pubDate" />
+	</resultMap>
+
+	<insert id="insertBlog" parameterType="Blog">
+	INSERT INTO t_blog(blog_title, blog_content, user_id, pub_date) VALUES(#{blogTitle}, #{blogContent}, #{userId}, #{pubDate})
+	</insert>
+
+	<delete id="deleteBlog" parameterType="int">
+	DELETE FROM t_blog WHERE blog_id=#{blogId}
+	</delete>
+	
+	<update id="updateBlog" parameterType="Blog">
+	UPDATE t_blog SET blog_title=#{blogTitle}, blog_content=#{blogContent}, user_id=#{userId}, pub_date=#{pubDate} WHERE blog_id=#{blogId}
+	</update>
+	
+	<select id="selectBlogById" parameterType="int" resultMap="blogResultMap">
+	SELECT * FROM t_blog WHERE blog_id=#{blogId}
+	</select>
+	
+	<select id="selectBlogs" resultMap="blogResultMap">
+	SELECT * FROM t_blog
+	</select>
+	
+</mapper>

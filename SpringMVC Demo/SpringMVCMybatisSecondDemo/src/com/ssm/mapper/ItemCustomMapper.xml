@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.ItemCustomDao">
+
+	<resultMap type="ItemCustom" id="itemCustomResultMap">
+		<id column="item_id" property="itemId" />
+		<result column="item_name" property="itemName" />
+		<result column="item_price" property="itemPrice" />
+		<result column="item_detail" property="itemDetail" />
+		<result column="item_pic" property="itemPic" />
+	</resultMap>
+
+	<!-- 定义商品查询sql片段 -->
+	<sql id="query_item_where">
+		<!-- 采用动态sql，满足各种判断条件后才进行查询 -->
+		<if test="itemCustom != null">
+			<if test="itemCustom.itemName != null and itemCustom.itemName != ''">
+				t_item.item_name LIKE CONCAT('%','${itemCustom.itemName}','%')
+			</if>
+		</if>
+	</sql>
+	
+	<!-- 
+	parameterType：一般要传入包装对象（包装了查询条件）
+	-->
+	<select id="findItemsList" parameterType="ItemQueryVo" resultMap="itemCustomResultMap">
+		SELECT t_item.* FROM t_item
+		<where>
+			<include refid="query_item_where"></include>
+		</where>
+	</select>
+	
+	<!-- 
+	<select id="findItemsList" parameterType="ItemQueryVo" resultMap="itemCustomResultMap" >
+	SELECT * FROM t_item WHERE item_name LIKE CONCAT('%','${itemCustom.itemName}','%') 
+	</select>
+	
+	
+	<sql id="query_item_where">
+		//	采用动态sql，满足各种判断条件后才进行查询
+		<if test="itemCustom != null">
+			<if test="itemCustom.itemName != null and itemCustom.itemName != ''">
+				t_item.item_name LIKE '%#{itemCustom.itemName}%'
+			</if>
+		</if>
+	</sql>
+	
+	<select id="findItemsList" parameterType="ItemQueryVo" resultMap="itemCustomResultMap">
+	SELECT t_item.* FROM t_item 
+		<where>
+			<include refid="query_item_where"></include>
+		</where>
+	</select>
+	
+	-->
+</mapper>

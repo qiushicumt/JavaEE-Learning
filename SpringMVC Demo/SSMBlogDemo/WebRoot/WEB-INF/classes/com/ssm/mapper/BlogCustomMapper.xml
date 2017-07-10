@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.BlogCustomDao">
+
+	<!-- BlogCustomResultMap -->
+	<resultMap type="BlogCustom" id="blogCustomResultMap">
+		<id column="blog_id" property="blogId" />
+		<result column="blog_title" property="blogTitle" />
+		<result column="blog_content" property="blogContent" />
+		<result column="user_id" property="userId" />
+		<result column="pub_date" property="pubDate" />
+		<association property="user" column="user_id" javaType="User">
+			<id column="user_id" property="userId" />
+			<result column="user_name" property="userName" />
+			<result column="user_password" property="userPassword" />
+			<result column="first_name" property="firstName" />
+			<result column="last_name" property="lastName" />
+		</association>
+	</resultMap>
+	
+	<!-- 查询BlogList的SQL片段 
+	<sql id="query_bloglist_sql">
+		<if test="blogCustom != null">
+			<if test="blogCustom.blogTitle != null and blogCustom.blogTitle != ''">
+			t_blog.user_id=t_user.user_id AND t_blog.blog_title LIKE CONCAT('%','${blogCustom.blogTitle}','%')
+			</if>
+		</if>
+	</sql> 
+	-->
+	<sql id="query_bloglist_sql">
+		<if test="blogCustom != null">
+			<if test="blogCustom.blogTitle != null and blogCustom.blogTitle != ''">
+			t_blog.user_id=t_user.user_id AND t_blog.blog_title LIKE CONCAT('%','${blogCustom.blogTitle}','%')
+			</if>
+		</if>
+	</sql>
+	<!-- 查询Blog的SQL片段 -->
+	<sql id="query_blog_sql">
+		t_blog.user_id=t_user.user_id AND t_blog.blog_id=#{blogId}
+	</sql>
+	
+	<!-- 查询BlogList
+	<select id="selectBlogList" parameterType="BlogQueryVo" resultMap="blogCustomResultMap">
+		SELECT * FROM t_blog, t_user
+		<where>
+			<include refid="query_bloglist_sql"></include>
+		</where>
+	</select>
+	-->
+	
+	<select id="selectBlogList" parameterType="BlogQueryVo" resultMap="blogCustomResultMap">
+	SELECT * FROM t_blog, t_user
+		<where>
+			<include refid="query_bloglist_sql"></include>
+		</where>
+	</select>
+	
+	<!-- 根据BlogId查询单独的Blog -->
+	<select id="selectBlogById" parameterType="int" resultMap="blogCustomResultMap">
+		SELECT * FROM t_blog, t_user
+		<where>
+			<include refid="query_blog_sql"></include>
+		</where>
+	</select>
+	
+</mapper>

@@ -14,10 +14,26 @@
 	<!-- 注解的方式配置 springmvc-servlet.xml -->
 	
 	<!-- spring扫描器：自动扫描类中的注解，可以扫描controller包、service包等 -->
-	<context:component-scan base-package="com.ssm.controller"></context:component-scan>
+	<context:component-scan base-package="com.ssm.controller">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	
 	<!-- springmvc的自动配置处理器映射器和处理器适配器 -->
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven />
+	<!-- 配置加载本地静态资源 -->
+	<mvc:default-servlet-handler/>
+	<mvc:resources location="/WEB-INF/static/html/" mapping="/html/**" />
+	<mvc:resources location="/WEB-INF/static/css/" mapping="/css/**" />
+	<mvc:resources location="/WEB-INF/static/js/" mapping="/js/**" />
+	<mvc:resources location="/WEB-INF/static/images/" mapping="/images/**" />
+	
+	<mvc:interceptors>
+		<!-- 配置拦截器，此处可以配置多个拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.ssm.interceptors.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	
 	<!-- 配置视图解析器：解析jsp，默认解析jstl风格标签 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

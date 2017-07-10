@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.UserCustomDao">
+
+	<resultMap type="UserCustom" id="userCustomResultMap">
+		<id column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_password" property="userPassword" />
+		<result column="first_name" property="firstName" />
+		<result column="last_name" property="lastName"/>
+	</resultMap>
+	
+	<sql id="sqlQueryUserByUserName">
+		<if test="userCustom != null">
+			<if test="userCustom.userName != null and userCustom.userName != ''">
+				t_user.user_name LIKE CONCAT('%', '${userCustom.userName}', '%')
+			</if>
+		</if>
+	</sql>
+	
+	<select id="findUserList" parameterType="UserQueryVo" resultMap="userCustomResultMap">
+		SELECT t_user.* FROM t_user
+		<where>
+			<include refid="sqlQueryUserByUserName"></include>
+		</where>
+	</select>
+	
+</mapper>

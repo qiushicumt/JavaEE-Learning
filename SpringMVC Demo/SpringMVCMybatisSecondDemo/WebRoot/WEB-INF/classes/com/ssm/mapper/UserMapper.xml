@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.UserDao">
+
+	<resultMap type="User" id="userResultMap">
+		<id column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_age" property="userAge" />
+		<result column="user_gender" property="userGender" />
+		<result column="user_address" property="userAddress" />
+	</resultMap>
+	
+	<insert id="insertUser" parameterType="User">
+	INSERT INTO t_user(user_name, user_age, user_gender, user_address) VALUES(#{userName}, #{userAge}, #{userGender}, #{userAddress})
+	</insert>
+	
+	<delete id="deleteUserById" parameterType="int">
+	DELETE FROM t_user WHERE user_id=#{userId}
+	</delete>
+	
+	<update id="updateUser" parameterType="User">
+	UPDATE t_user SET user_name=#{userName}, user_age=#{userAge}, user_gender=#{userGender}, user_address=#{userAddress} WHERE user_id=#{userId}
+	</update>
+	
+	<select id="selectUserById" parameterType="int" resultMap="userResultMap">
+	SELECT * FROM t_user WHERE user_id=#{userId}
+	</select>
+	
+	<select id="selectAllUsers" resultMap="userResultMap">
+	SELECT * FROM t_user
+	</select>
+	
+</mapper>

@@ -8,7 +8,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>ItemsList WebPage</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<!-- 加载cdn的bootstrap文件
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" > 
+	-->
+	<!-- 加载本地的bootstrap的css文件 -->
+	<link rel="stylesheet" href="../../css/bootstrap.min.css">
 	<style type="text/css">
 		.container {
 			margin-top:20px;
